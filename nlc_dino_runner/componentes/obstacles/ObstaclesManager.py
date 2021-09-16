@@ -17,10 +17,14 @@ class ObstaclesManager:
         for obstacle in self.obstacles_list:
             obstacle.update(game.game_speed, self.obstacles_list)
             if game.player.dino_rect.colliderect(obstacle.rect):
-                pygame.time.delay(1500)
+                pygame.time.delay(1000)
                 game.playing = False
+                game.death_count +=1
                 break
 
     def draw(self, screen):
         for obstacle in self.obstacles_list:
             obstacle.draw(screen)
+
+    def reset_obstacles(self):
+        self.obstacles_list = []
