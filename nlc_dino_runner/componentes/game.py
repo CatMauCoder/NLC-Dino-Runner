@@ -1,5 +1,6 @@
 import pygame
 
+from nlc_dino_runner.componentes.Powerups.power_up_manager import PowerUpManager
 from nlc_dino_runner.componentes.dinosaur import Dinosaur
 from nlc_dino_runner.componentes.obstacles import text_utils
 from nlc_dino_runner.componentes.obstacles.ObstaclesManager import ObstaclesManager
@@ -26,12 +27,15 @@ class Game:
         self.game_speed = 20
         self.player = Dinosaur()
         self.obstacle_manager = ObstaclesManager()
+        self.power_up_manager = PowerUpManager()
         self.points = 0
         self.running = True
         self.death_count = 0
 
     def run(self):
         self.obstacle_manager.reset_obstacles()
+        #Hacemos que al emepxar de nuevo la partidad no haya power ups
+        self.power_up_manager.reset_power_ups(self.points)
         self.points = 0
         self.playing = True
         while self.playing:
@@ -49,6 +53,9 @@ class Game:
         user_input = pygame.key.get_pressed()
         self.player.update(user_input)
         self.obstacle_manager.update(self)
+        self.power_up_manager.update(self.points,self.game_speed, self.player)
+
+        print(self.game_speed)
 
     def draw(self):
 
@@ -63,6 +70,8 @@ class Game:
         self.player.draw(self.screen)
         self.obstacle_manager.draw(self.screen)
 
+        self.power_up_manager.draw(self.screen)
+
         pygame.display.update()
         pygame.display.flip()
 
@@ -73,6 +82,8 @@ class Game:
             self.game_speed += 1
         score_element, score_element_rect = text_utils.get_score_element(self.points)
         self.screen.blit(score_element, score_element_rect)
+
+
 
     def draw_background(self):
         image_width = BG.get_width()
