@@ -7,25 +7,29 @@ from nlc_dino_runner.componentes.Powerups.shield import Shield
 class PowerUpManager:
 
     def __init__(self):
-
+        #creamos lista de power ups
         self.power_ups = []
         self.when_appears = 0
         self.points = 0
         self.option_numbers = list(range(1, 10))
 
     def reset_power_ups(self, points):
-
+        #se vacia la lsta de power ups
         self.power_ups = []
         self.points = points
+        #ponemos esta variable para que aparescan cuando se tiene cierto puntaje
         self.when_appears = random.randint(200, 300) + self.points
 
     def generate_power_ups(self, points):
 
         self.points = points
+        #comparamos si no hay power ups
         if len(self.power_ups) == 0:
+            #comparamos si el puntaje ya es el establecido para qye apresca el power ups
             if self.when_appears == self.points:
                 print("generating powerup")
                 self.when_appears = random.randint(self.when_appears + 200, 500 + self.when_appears)
+                #agregamos el power up
                 self.power_ups.append(Shield())
         return self.power_ups
 
@@ -39,7 +43,7 @@ class PowerUpManager:
                 player.shield = True
                 player.show_text = True
                 player.type = power_up.type
-                power_up.start_time = pygame.time.get_ticks()
+
                 time_random = random.randrange(5, 8)
                 player.shield_time_up = power_up.start_time + (time_random * 1000)
                 self.power_ups.remove(power_up)

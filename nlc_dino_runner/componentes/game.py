@@ -55,7 +55,7 @@ class Game:
         self.obstacle_manager.update(self)
         self.power_up_manager.update(self.points,self.game_speed, self.player)
 
-        print(self.game_speed)
+
 
     def draw(self):
 
@@ -82,6 +82,7 @@ class Game:
             self.game_speed += 1
         score_element, score_element_rect = text_utils.get_score_element(self.points)
         self.screen.blit(score_element, score_element_rect)
+        self.player.check_invencibility(self.screen)
 
 
 
