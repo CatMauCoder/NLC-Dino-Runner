@@ -6,6 +6,7 @@ from nlc_dino_runner.componentes.obstacles import text_utils
 from nlc_dino_runner.componentes.obstacles.ObstaclesManager import ObstaclesManager
 from nlc_dino_runner.componentes.obstacles.cactus import Cactus
 # from nlc_dino_runner.componentes.obstacles.obstacles import Obstacles
+from nlc_dino_runner.components.player_hearts.hearts_manager import HeartsManager
 from nlc_dino_runner.utils.constants import TITLE, ICON, SCREEN_WIDTH, SCREEN_HEIGHT, BG, FPS, SMALL_CACTUS, \
     LARGE_CACTUS, RUNNING
 
@@ -28,6 +29,7 @@ class Game:
         self.player = Dinosaur()
         self.obstacle_manager = ObstaclesManager()
         self.power_up_manager = PowerUpManager()
+        self.hearts_manager = HeartsManager()
         self.points = 0
         self.running = True
         self.death_count = 0
@@ -36,8 +38,10 @@ class Game:
         self.obstacle_manager.reset_obstacles()
         #Hacemos que al emepxar de nuevo la partidad no haya power ups
         self.power_up_manager.reset_power_ups(self.points)
+        self.hearts_manager.reset_counter_hearts()
         self.points = 0
         self.playing = True
+
         while self.playing:
             self.event()
             self.update()
@@ -71,6 +75,7 @@ class Game:
         self.obstacle_manager.draw(self.screen)
 
         self.power_up_manager.draw(self.screen)
+        self.hearts_manager.draw(self.screen)
 
         pygame.display.update()
         pygame.display.flip()

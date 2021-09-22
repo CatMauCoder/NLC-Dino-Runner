@@ -21,12 +21,17 @@ class ObstaclesManager:
                 if game.player.shield:
                     self.obstacles_list.remove(obstacle)
                 else:
-                    pygame.time.delay(500)
-                    game.playing = False
-                    game.death_count +=1
-                    #REINICIAMDO LA VELOCIDAD
-                    game.game_speed = 20
-                    break
+                    game.hearts_manager.hearts_conter -=1
+                    if game.hearts_manager.hearts_conter > 0:
+                        self.obstacles_list.remove(obstacle)
+
+                    else:
+                        pygame.time.delay(500)
+                        game.playing = False
+                        game.death_count +=1
+                        #REINICIAMDO LA VELOCIDAD
+                        game.game_speed = 20
+                        break
 
     def draw(self, screen):
         for obstacle in self.obstacles_list:
