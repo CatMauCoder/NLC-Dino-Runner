@@ -1,11 +1,10 @@
 import pygame
 
-from nlc_dino_runner.componentes.Powerups.power_up_manager import PowerUpManager
+from nlc_dino_runner.componentes.powerups.power_up_manager import PowerUpManager
 from nlc_dino_runner.componentes.dinosaur import Dinosaur
 from nlc_dino_runner.componentes.obstacles import text_utils
 from nlc_dino_runner.componentes.obstacles.ObstaclesManager import ObstaclesManager
 from nlc_dino_runner.componentes.obstacles.cactus import Cactus
-# from nlc_dino_runner.componentes.obstacles.obstacles import Obstacles
 from nlc_dino_runner.components.player_hearts.hearts_manager import HeartsManager
 from nlc_dino_runner.utils.constants import TITLE, ICON, SCREEN_WIDTH, SCREEN_HEIGHT, BG, FPS, SMALL_CACTUS, \
     LARGE_CACTUS, RUNNING
@@ -35,11 +34,13 @@ class Game:
         self.death_count = 0
 
     def run(self):
+        self.points = 0
         self.obstacle_manager.reset_obstacles()
         #Hacemos que al emepxar de nuevo la partidad no haya power ups
         self.power_up_manager.reset_power_ups(self.points)
         self.hearts_manager.reset_counter_hearts()
-        self.points = 0
+        self.player.hammer_throwed.reset_hammer(self.player)
+
         self.playing = True
 
         while self.playing:
@@ -57,25 +58,21 @@ class Game:
         user_input = pygame.key.get_pressed()
         self.player.update(user_input)
         self.obstacle_manager.update(self)
-        self.power_up_manager.update(self.points,self.game_speed, self.player)
-
-
+        self.power_up_manager.update(self.points, self.game_speed, self.player)
+        if self.player.throwing_hammer:
+            self.player.hammer_throwed.update_hammer(self.player)
 
     def draw(self):
-
-        # Ciclos por segundo
         self.clock.tick(FPS)
-        # Dibujamos el color
         self.screen.fill((255, 255, 255))
-        self.score()
-        # Agregando Fondo
         self.draw_background()
-        # dibujando dino
         self.player.draw(self.screen)
         self.obstacle_manager.draw(self.screen)
-
         self.power_up_manager.draw(self.screen)
+        self.score()
         self.hearts_manager.draw(self.screen)
+        if self.player.throwing_hammer:
+            self.player.hammer_throwed.draw_hammer(self.screen)
 
         pygame.display.update()
         pygame.display.flip()

@@ -1,4 +1,4 @@
-from nlc_dino_runner.componentes.Powerups.powerup import PowerUp
+from nlc_dino_runner.componentes.powerups.powerup import PowerUp
 from nlc_dino_runner.utils.constants import SHIELD, SHIELD_TYPE
 
 

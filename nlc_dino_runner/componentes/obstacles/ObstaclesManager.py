@@ -16,6 +16,10 @@ class ObstaclesManager:
 
         for obstacle in self.obstacles_list:
             obstacle.update(game.game_speed, self.obstacles_list)
+            if game.player.throwing_hammer:
+                if game.player.hammer_throwed.rect.colliderect(obstacle.rect):
+                    self.obstacles_list.remove(obstacle)
+
             if game.player.dino_rect.colliderect(obstacle.rect):
 
                 if game.player.shield:

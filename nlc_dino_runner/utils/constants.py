@@ -22,10 +22,10 @@ RUNNING_SHIELD = [
     pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoRun2.png")),
 ]
 
-RUNNING_HAMMER = {
+RUNNING_HAMMER = [
     pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoDuck1Hammer.png")),
     pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoRun2.png")),
-}
+]
 
 JUMPING = pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoJump.png"))
 JUMPING_SHIELD = pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoJumpShield.png"))
@@ -75,3 +75,5 @@ DEFAULT_TYPE = "default"
 #CREAMOS UN CONSTANTE PARA SABER CUANDO SE UTILIZA EL TIPO SHIELD
 
 SHIELD_TYPE = "shield"
+
+HAMMER_TYPE = "hammer"
