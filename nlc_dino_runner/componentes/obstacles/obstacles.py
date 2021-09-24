@@ -1,6 +1,7 @@
 from pygame.sprite import Sprite
 
-from nlc_dino_runner.utils.constants import SCREEN_WIDTH
+from nlc_dino_runner.utils.constants import SCREEN_WIDTH, BIRD
+
 
 #Clase Padre
 
@@ -18,4 +19,5 @@ class Obstacles(Sprite):
             obstacle_list.pop()
 
     def draw(self, screen):
+        if self.image == BIRD: self.update_bird()
         screen.blit(self.image[self.obstacle_type], self.rect)

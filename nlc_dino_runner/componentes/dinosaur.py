@@ -2,7 +2,8 @@
 import pygame
 from pygame.sprite import Sprite
 from nlc_dino_runner.componentes.obstacles import text_utils
-from nlc_dino_runner.componentes.powerups.hammer import HammerThowed
+from nlc_dino_runner.componentes.obstacles.text_utils import get_centered_message
+from nlc_dino_runner.componentes.powerups.hammer import  Hammer
 from nlc_dino_runner.utils.constants import (
     RUNNING,
     DUCKING,
@@ -15,13 +16,13 @@ from nlc_dino_runner.utils.constants import (
     SHIELD_TYPE,
     HAMMER_TYPE,
     RUNNING_HAMMER,
-    JUMPING_HAMMER
+    JUMPING_HAMMER, HAMMER, SHIELD, SOUND_JUMP
 )
 
 class Dinosaur(Sprite):
     # Coordenadas
     x_pos = 80
-    y_pos = 310
+    y_pos = 295
     y_POS_DUCK = 340
     JUMP_VEL = 8
 
@@ -51,6 +52,10 @@ class Dinosaur(Sprite):
         self.shield_time_up = 0
         self.show_text = False
 
+        self.hammer = False
+        self.throwing_hammer = False
+        self.hammers_remain = 3
+
 
 
         self.dino_rect = self.image.get_rect()
@@ -62,10 +67,6 @@ class Dinosaur(Sprite):
         self.dino_duck = False
         self.jump_vel = self.JUMP_VEL
 
-        self.hammer = False
-        self.throwing_hammer = False
-        self.hammers_remain = 3
-        self.hammer_throwed = HammerThowed(self.dino_rect.y)
 
     def update(self, user_input):
         if self.dino_jump:
@@ -83,6 +84,7 @@ class Dinosaur(Sprite):
 
         elif user_input[pygame.K_UP] and not self.dino_jump:
 
+            SOUND_JUMP.play()
             self.dino_jump = True
             self.dino_duck = False
             self.dino_run = False
@@ -98,8 +100,10 @@ class Dinosaur(Sprite):
             self.step_index = 0
 
         if user_input[pygame.K_SPACE] and self.hammer and not self.throwing_hammer:
-            self.hammer_throwed = HammerThowed(self.dino_rect.y)
+            self.hammer_throwed = Hammer()
+            self.hammer_throwed.set_pos_hammer(self.dino_rect)
             self.throwing_hammer = True
+            self.hammers_remain -= 1
 
 
     def run(self):
@@ -119,6 +123,7 @@ class Dinosaur(Sprite):
         self.step_index += 2
 
     def jump(self):
+
 
         self.image = self.jump_img[self.type]
         if self.dino_jump:
@@ -143,12 +148,32 @@ class Dinosaur(Sprite):
                 text, text_rect = text_utils.get_centered_message(
                     f"Shield enable for {time_to_show}",
                     witdh = 500,
-                    height = 40,
-                    size =  20)
+                    height = 25,
+                    size =  30)
                 screen.blit(text, text_rect)
 
-    def check_hammer(self, user_input):
-        pass
+                screen.blit(SHIELD, (610, 4))
+
+    def check_hammer(self, screen):
+
+        if self.hammer:
+
+            if self.hammers_remain <= 0:
+                self.hammer = False
+                if self.type == HAMMER_TYPE:
+                    self.type = DEFAULT_TYPE
+            else:
+
+                if self.show_text:
+                    text, text_rect = get_centered_message(
+                        f'Hammers remain: {self.hammers_remain}',
+                        witdh = 500,
+                        height = 25,
+                        size = 30
+                    )
+                    screen.blit(text, text_rect)
+
+                    screen.blit(HAMMER, (595, 4))
 
     def draw(self, screen):
         # funcion blit para dibujar

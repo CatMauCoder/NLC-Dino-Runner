@@ -1,5 +1,9 @@
 import pygame
 import os
+import pygame as pg
+from pygame import mixer
+
+pg.init()
 
 # Global Constants
 TITLE = "DINO RUN"
@@ -65,6 +69,8 @@ BIRD = [
 CLOUD = pygame.image.load(os.path.join(IMG_DIR, 'Other/Cloud.png'))
 SHIELD = pygame.image.load(os.path.join(IMG_DIR, 'Other/shield.png'))
 HAMMER = pygame.image.load(os.path.join(IMG_DIR, 'Other/hammer.png'))
+RESET = pygame.image.load(os.path.join(IMG_DIR, 'Other/Reset.png'))
+GAME_OVER = pygame.image.load(os.path.join(IMG_DIR, 'Other/GameOver.png'))
 
 BG = pygame.image.load(os.path.join(IMG_DIR, 'Other/Track.png'))
 
@@ -77,3 +83,9 @@ DEFAULT_TYPE = "default"
 SHIELD_TYPE = "shield"
 
 HAMMER_TYPE = "hammer"
+
+MUSIC_DIR = os.path.join(os.path.dirname(__file__),"..","assets")
+
+SOUND_THEME_FOUND = pygame.mixer.Sound(os.path.join(MUSIC_DIR, "sounds/theme_game.wav"))
+SOUND_JUMP = pygame.mixer.Sound(os.path.join(MUSIC_DIR, "sounds/jump.wav"))
+SOUND_GAME_OVER = pygame.mixer.Sound(os.path.join(MUSIC_DIR, "sounds/game_over.wav"))

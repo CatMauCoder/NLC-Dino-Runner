@@ -11,7 +11,7 @@ def get_score_element(points):
 
     text = font.render("Points: " + str(points), True, BLACK_COLOR)
     text_rect = text.get_rect()
-    text_rect.center = (1000, 50)
+    text_rect.center = (1020, 25)
     return (text, text_rect)
 
 def get_centered_message(message, witdh = SCREEN_WIDTH//2 , height = SCREEN_HEIGHT//2, size = 30):
